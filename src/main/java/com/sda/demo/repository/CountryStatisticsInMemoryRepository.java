@@ -3,6 +3,7 @@ package com.sda.demo.repository;
 import com.sda.demo.model.CountryStatistics;
 import org.springframework.stereotype.Repository;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +13,8 @@ public class CountryStatisticsInMemoryRepository {
 
     public CountryStatisticsInMemoryRepository(){
         this.statisticsMap=new HashMap<>();
-        statisticsMap.put("pl", new CountryStatistics(10000, 10, 1));
-        statisticsMap.put("de", new CountryStatistics(2124234, 1132, 4423));
+        statisticsMap.put("pl", new CountryStatistics("pl", 10000L, 10L, 1L));
+        statisticsMap.put("de", new CountryStatistics("de",2124234L, 1132L, 4423L));
     }
 
     public CountryStatistics getCountry(String countryCode){

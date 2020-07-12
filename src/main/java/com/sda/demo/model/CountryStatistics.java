@@ -20,12 +20,16 @@ public class CountryStatistics {
     @Id
     @Column(length = 2, nullable = false, unique = true)
     private String countyCode;
-    private int active;
-    private int deaths;
-    private int recovered;
+    private Long active;
+    private Long deaths;
+    private Long recovered;
 
+    public CountryStatistics( Long active, Long deaths, Long recoverred){
+        this(null, active, deaths, recoverred); //call more arguments constructor and atribute null
+    }
 
-    public CountryStatistics(int active, int deaths, int recoverred){
+    public CountryStatistics(String countyCode, Long active, Long deaths, Long recoverred){
+        this.countyCode=countyCode;
         this.active=active;
         this.deaths=deaths;
         this.recovered=recoverred;

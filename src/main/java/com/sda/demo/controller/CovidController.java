@@ -1,13 +1,10 @@
 package com.sda.demo.controller;
 
 import com.sda.demo.model.CountryStatistics;
-import com.sda.demo.service.CountryStatisticsInMemoryService;
-import com.sda.demo.service.CountryStatisticsService;
+import com.sda.demo.service.ICountryStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -15,25 +12,27 @@ import java.util.Map;
 @RequestMapping("/covid/country")
 public class CovidController {
 
-    private final CountryStatisticsInMemoryService countryStatisticsInMemoryService;
-
-    private final CountryStatisticsService countryStatisticsService;
-
+    private final ICountryStatisticsService iCountryStatisticsService;
 
     @Autowired
-    public CovidController(CountryStatisticsInMemoryService countryStatisticsInMemoryService, CountryStatisticsService countryStatisticsService){
-        this.countryStatisticsInMemoryService = countryStatisticsInMemoryService;
-        this.countryStatisticsService=countryStatisticsService;
+    public CovidController(@Qualifier("countryStatisticsService") ICountryStatisticsService iCountryStatisticsService) {
+        this.iCountryStatisticsService = iCountryStatisticsService;
     }
 
     @GetMapping("/{country}")
     public CountryStatistics getInfo(@PathVariable String country){ //if we have /{country} and String country (same name), we don't need @PathVariable
-        return countryStatisticsService.getByCountryCode(country);
-//        return new CountryStatistics(10000, 100, 8790);
+        return iCountryStatisticsService.getByCountry(country);
     }
 
     @GetMapping("/all")
     public Map<String, CountryStatistics> allCountries(){
-        return countryStatisticsInMemoryService.findAll();
+        return null;
     }
+
+    @PostMapping("/{country}")
+    public void addCountry(@PathVariable String country, @RequestBody CountryStatistics countryStatistics){
+        this.iCountryStatisticsService.add(countryStatistics);
+    }
+
+
 }

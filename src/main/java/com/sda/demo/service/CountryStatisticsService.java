@@ -5,8 +5,10 @@ import com.sda.demo.repository.CountryStatisticRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
-public class CountryStatisticsService {
+public class CountryStatisticsService implements ICountryStatisticsService{
 
     private final CountryStatisticRepository countryStatisticRepository;
 
@@ -15,8 +17,14 @@ public class CountryStatisticsService {
         this.countryStatisticRepository = countryStatisticRepository;
     }
 
-    public CountryStatistics getByCountryCode(String countryCode){
-        return this.countryStatisticRepository.findById(countryCode).orElse(new CountryStatistics(0,0,0));
+    @Override
+    public CountryStatistics getByCountry(String countryCode){
+        return this.countryStatisticRepository.findById(countryCode).orElse(new CountryStatistics(null, 0L,0L,0L));
+    }
+
+    @Override
+    public void add(CountryStatistics countryStatistics) {
+        this.countryStatisticRepository.save(countryStatistics);
     }
 
 }
