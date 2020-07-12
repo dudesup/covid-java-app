@@ -1,6 +1,7 @@
 package com.sda.demo.controller;
 
 import com.sda.demo.model.CountryStatistics;
+import com.sda.demo.service.CountryStatisticsInMemoryService;
 import com.sda.demo.service.CountryStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,21 +15,25 @@ import java.util.Map;
 @RequestMapping("/covid/country")
 public class CovidController {
 
+    private final CountryStatisticsInMemoryService countryStatisticsInMemoryService;
+
     private final CountryStatisticsService countryStatisticsService;
 
+
     @Autowired
-    public CovidController(CountryStatisticsService countryStatisticsService){
+    public CovidController(CountryStatisticsInMemoryService countryStatisticsInMemoryService, CountryStatisticsService countryStatisticsService){
+        this.countryStatisticsInMemoryService = countryStatisticsInMemoryService;
         this.countryStatisticsService=countryStatisticsService;
     }
 
     @GetMapping("/{country}")
     public CountryStatistics getInfo(@PathVariable String country){ //if we have /{country} and String country (same name), we don't need @PathVariable
-        return countryStatisticsService.getByCountry(country);
+        return countryStatisticsService.getByCountryCode(country);
 //        return new CountryStatistics(10000, 100, 8790);
     }
 
     @GetMapping("/all")
     public Map<String, CountryStatistics> allCountries(){
-        return countryStatisticsService.findAll();
+        return countryStatisticsInMemoryService.findAll();
     }
 }

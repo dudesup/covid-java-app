@@ -1,29 +1,22 @@
 package com.sda.demo.service;
 
 import com.sda.demo.model.CountryStatistics;
-import com.sda.demo.repository.CountryRepository;
+import com.sda.demo.repository.CountryStatisticRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Map;
 
 @Service
 public class CountryStatisticsService {
-    CountryRepository countryRepository;
+
+    private final CountryStatisticRepository countryStatisticRepository;
 
     @Autowired
-    public CountryStatisticsService(CountryRepository countryRepository){
-        this.countryRepository=countryRepository;
+    public CountryStatisticsService(CountryStatisticRepository countryStatisticRepository) {
+        this.countryStatisticRepository = countryStatisticRepository;
     }
 
-    public CountryStatistics getByCountry(String countryCode) {
-        CountryStatistics countryStatistics = countryRepository.getCountry(countryCode);
-        if (countryCode==null){
-            countryStatistics = new CountryStatistics(0, 0, 0);
-        }
-        return countryStatistics;
+    public CountryStatistics getByCountryCode(String countryCode){
+        return this.countryStatisticRepository.findById(countryCode).orElse(new CountryStatistics(0,0,0));
     }
 
-    public Map<String, CountryStatistics> findAll(){
-        return this.countryRepository.findAll();
-    }
 }

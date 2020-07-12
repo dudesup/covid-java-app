@@ -4,8 +4,6 @@ import com.sda.demo.model.CountryStatistics;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
-public interface CountryRepository  extends CrudRepository<CountryStatistics, String> {
-    
+public interface CountryStatisticRepository extends CrudRepository<CountryStatistics, String> {
 }

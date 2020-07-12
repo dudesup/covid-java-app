@@ -19,16 +19,16 @@ public class CountryStatistics {
 
     @Id
     @Column(length = 2, nullable = false, unique = true)
-    private String countryCode;
+    private String countyCode;
     private int active;
     private int deaths;
-    private int recoverred;
+    private int recovered;
 
 
     public CountryStatistics(int active, int deaths, int recoverred){
         this.active=active;
         this.deaths=deaths;
-        this.recoverred=recoverred;
+        this.recovered=recoverred;
     }
 
 }
