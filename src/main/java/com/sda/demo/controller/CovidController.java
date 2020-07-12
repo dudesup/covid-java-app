@@ -15,7 +15,7 @@ public class CovidController {
     private final ICountryStatisticsService iCountryStatisticsService;
 
     @Autowired
-    public CovidController(@Qualifier("countryStatisticsService") ICountryStatisticsService iCountryStatisticsService) {
+    public CovidController(@Qualifier("countryStatisticsInMemoryService") ICountryStatisticsService iCountryStatisticsService) {
         this.iCountryStatisticsService = iCountryStatisticsService;
     }
 

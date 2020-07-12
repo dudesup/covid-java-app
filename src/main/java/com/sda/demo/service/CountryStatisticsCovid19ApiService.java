@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CountryStatisticsCovid19ApiService implements ICountryStatisticsService{
 
@@ -38,5 +41,21 @@ public class CountryStatisticsCovid19ApiService implements ICountryStatisticsSer
     @Override
     public void add(CountryStatistics countryStatistics) {
         throw new UnsupportedOperationException("You cannot add data to external API");
+    }
+
+
+    public List<CountryStatistics> findAll() {
+        Covid19AApiSummaryResponse response = restTemplate.getForObject("/summary", Covid19AApiSummaryResponse.class);
+
+        List<CountryStatistics> countryStatistics = response
+                .getCountries()
+                .stream()
+                .map(country -> new CountryStatistics(country.getCountryCode(),
+                        country.getTotalConfirmed(),
+                        country.getTotalDeaths(),
+                        country.getTotalRecovered()))
+                .collect(Collectors.toList());
+
+        return countryStatistics;
     }
 }
